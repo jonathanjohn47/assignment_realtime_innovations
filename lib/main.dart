@@ -2,14 +2,14 @@ import 'package:assignment_realtime_innovations/core/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 
-import 'features/employee_list_screen.dart';
+import 'features/employee_list/ui/employee_list_screen.dart';
 
-void main() {
-  runApp(const MyApp());
+Future<void> main() async {
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
 
   // This widget is the root of your application.
   @override

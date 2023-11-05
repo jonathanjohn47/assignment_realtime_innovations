@@ -1,15 +1,19 @@
 import 'package:assignment_realtime_innovations/core/app_colors.dart';
+import 'package:assignment_realtime_innovations/widgets/custom_date_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 
 class AddEmployeeDetailsScreen extends StatelessWidget {
-  const AddEmployeeDetailsScreen({super.key});
+  AddEmployeeDetailsScreen({super.key});
+
+  TextEditingController employeeNameController = TextEditingController();
+  TextEditingController roleController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add Employee Details'),
+        title: Text('Add Employee Details'),
         elevation: 0,
         automaticallyImplyLeading: false,
       ),
@@ -18,6 +22,7 @@ class AddEmployeeDetailsScreen extends StatelessWidget {
         child: ListView(
           children: [
             TextFormField(
+              controller: employeeNameController,
               decoration: InputDecoration(
                 hintText: 'Employee Name',
                 hintStyle: TextStyle(
@@ -58,73 +63,97 @@ class AddEmployeeDetailsScreen extends StatelessWidget {
                       return Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.all(8.0.dp),
-                                child: Text(
-                                  'Product Designer',
-                                  style: TextStyle(
-                                    fontSize: 16.dp,
+                          GestureDetector(
+                            onTap: () {
+                              roleController.text = 'Product Designer';
+                              Navigator.of(context).pop();
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.all(8.0.dp),
+                                  child: Text(
+                                    'Product Designer',
+                                    style: TextStyle(
+                                      fontSize: 16.dp,
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                           Divider(
                             thickness: 0.5.dp,
                             color: Colors.grey.shade300,
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.all(8.0.dp),
-                                child: Text(
-                                  'Flutter Developer',
-                                  style: TextStyle(
-                                    fontSize: 16.dp,
+                          GestureDetector(
+                            onTap: () {
+                              roleController.text = 'Flutter Developer';
+                              Navigator.of(context).pop();
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.all(8.0.dp),
+                                  child: Text(
+                                    'Flutter Developer',
+                                    style: TextStyle(
+                                      fontSize: 16.dp,
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                           Divider(
                             thickness: 0.5.dp,
                             color: Colors.grey.shade300,
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.all(8.0.dp),
-                                child: Text(
-                                  'QA Tester',
-                                  style: TextStyle(
-                                    fontSize: 16.dp,
+                          GestureDetector(
+                            onTap: () {
+                              roleController.text = 'QA Tester';
+                              Navigator.of(context).pop();
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.all(8.0.dp),
+                                  child: Text(
+                                    'QA Tester',
+                                    style: TextStyle(
+                                      fontSize: 16.dp,
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                           Divider(
                             thickness: 0.5.dp,
                             color: Colors.grey.shade300,
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.all(8.0.dp),
-                                child: Text(
-                                  'Product Owner',
-                                  style: TextStyle(
-                                    fontSize: 16.dp,
+                          GestureDetector(
+                            onTap: () {
+                              roleController.text = 'Product Owner';
+                              Navigator.of(context).pop();
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.all(8.0.dp),
+                                  child: Text(
+                                    'Product Owner',
+                                    style: TextStyle(
+                                      fontSize: 16.dp,
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                           Divider(
                             thickness: 1.dp,
@@ -135,6 +164,7 @@ class AddEmployeeDetailsScreen extends StatelessWidget {
                     });
               },
               child: TextFormField(
+                controller: roleController,
                 enabled: false,
                 decoration: InputDecoration(
                   hintText: 'Select Role',
@@ -158,6 +188,9 @@ class AddEmployeeDetailsScreen extends StatelessWidget {
                     ),
                   ),
                 ),
+                style: TextStyle(
+                  color: Colors.black,
+                ),
               ),
             ),
             SizedBox(height: 16.dp),
@@ -165,7 +198,19 @@ class AddEmployeeDetailsScreen extends StatelessWidget {
               children: [
                 Expanded(
                   child: GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return Material(
+                              child: CustomDatePicker(
+                                initialDate: DateTime.now(),
+                                firstDate: DateTime(1950),
+                                lastDate: DateTime.now(),
+                              ),
+                            );
+                          });
+                    },
                     child: TextFormField(
                       enabled: false,
                       decoration: InputDecoration(
