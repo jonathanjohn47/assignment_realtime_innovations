@@ -19,7 +19,10 @@ class AddEmployeeDetailsScreen extends StatelessWidget {
           children: [
             TextFormField(
               decoration: InputDecoration(
-                labelText: 'Employee Name',
+                hintText: 'Employee Name',
+                hintStyle: TextStyle(
+                  color: Colors.grey.shade500,
+                ),
                 prefixIcon: Icon(
                   Icons.person_outline,
                   color: AppColors.primary,
@@ -42,11 +45,99 @@ class AddEmployeeDetailsScreen extends StatelessWidget {
             ),
             SizedBox(height: 16.dp),
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                showModalBottomSheet(
+                    context: context,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(8.dp),
+                        topRight: Radius.circular(8.dp),
+                      ),
+                    ),
+                    builder: (context) {
+                      return Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.all(8.0.dp),
+                                child: Text(
+                                  'Product Designer',
+                                  style: TextStyle(
+                                    fontSize: 16.dp,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Divider(
+                            thickness: 0.5.dp,
+                            color: Colors.grey.shade300,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.all(8.0.dp),
+                                child: Text(
+                                  'Flutter Developer',
+                                  style: TextStyle(
+                                    fontSize: 16.dp,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Divider(
+                            thickness: 0.5.dp,
+                            color: Colors.grey.shade300,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.all(8.0.dp),
+                                child: Text(
+                                  'QA Tester',
+                                  style: TextStyle(
+                                    fontSize: 16.dp,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Divider(
+                            thickness: 0.5.dp,
+                            color: Colors.grey.shade300,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.all(8.0.dp),
+                                child: Text(
+                                  'Product Owner',
+                                  style: TextStyle(
+                                    fontSize: 16.dp,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Divider(
+                            thickness: 1.dp,
+                            color: Colors.grey.shade300,
+                          ),
+                        ],
+                      );
+                    });
+              },
               child: TextFormField(
                 enabled: false,
                 decoration: InputDecoration(
-                  labelText: 'Select Role',
+                  hintText: 'Select Role',
                   prefixIcon: Icon(
                     Icons.work_outline,
                     color: AppColors.primary,
@@ -78,7 +169,7 @@ class AddEmployeeDetailsScreen extends StatelessWidget {
                     child: TextFormField(
                       enabled: false,
                       decoration: InputDecoration(
-                        labelText: 'No Date',
+                        hintText: 'No Date',
                         prefixIcon: Icon(
                           Icons.calendar_month_outlined,
                           color: AppColors.primary,
@@ -105,7 +196,7 @@ class AddEmployeeDetailsScreen extends StatelessWidget {
                     child: TextFormField(
                       enabled: false,
                       decoration: InputDecoration(
-                        labelText: 'No Date',
+                        hintText: 'No Date',
                         prefixIcon: Icon(
                           Icons.calendar_month_outlined,
                           color: AppColors.primary,
