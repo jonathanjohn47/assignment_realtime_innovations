@@ -69,7 +69,7 @@ class EmployeeListScreen extends StatelessWidget {
                                 },
                                 child: Padding(
                                   padding: EdgeInsets.symmetric(
-                                      horizontal: 8.0.dp, vertical: 4.dp),
+                                      horizontal: 16.0.dp, vertical: 4.dp),
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -266,7 +266,7 @@ class EmployeeListScreen extends StatelessWidget {
                                   },
                                   child: Padding(
                                     padding: EdgeInsets.symmetric(
-                                        horizontal: 8.0.dp, vertical: 4.dp),
+                                        horizontal: 16.0.dp, vertical: 4.dp),
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
