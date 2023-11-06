@@ -1,4 +1,5 @@
 import 'package:assignment_realtime_innovations/core/app_colors.dart';
+import 'package:assignment_realtime_innovations/helpers/date_time_helpers.dart';
 import 'package:assignment_realtime_innovations/widgets/custom_date_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
@@ -8,12 +9,14 @@ class AddEmployeeDetailsScreen extends StatelessWidget {
 
   TextEditingController employeeNameController = TextEditingController();
   TextEditingController roleController = TextEditingController();
+  TextEditingController fromDateController = TextEditingController();
+  TextEditingController toDateController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add Employee Details'),
+        title: const Text('Add Employee Details'),
         elevation: 0,
         automaticallyImplyLeading: false,
       ),
@@ -188,7 +191,7 @@ class AddEmployeeDetailsScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.black,
                 ),
               ),
@@ -203,16 +206,21 @@ class AddEmployeeDetailsScreen extends StatelessWidget {
                           context: context,
                           builder: (context) {
                             return Material(
-                              child: CustomDatePicker(
-                                initialDate: DateTime.now(),
-                                firstDate: DateTime(1950),
-                                lastDate: DateTime.now(),
-                              ),
+                              child: SizedBox(
+                                  height: 80.h,
+                                  width: 80.w,
+                                  child: CustomDatePicker(
+                                    onDateSelected: (selectedDate) {
+                                      fromDateController.text = selectedDate
+                                          .getDateWithShortMonthName;
+                                    },
+                                  )),
                             );
                           });
                     },
                     child: TextFormField(
                       enabled: false,
+                      controller: fromDateController,
                       decoration: InputDecoration(
                         hintText: 'No Date',
                         prefixIcon: Icon(
@@ -230,6 +238,9 @@ class AddEmployeeDetailsScreen extends StatelessWidget {
                           ),
                         ),
                       ),
+                      style: const TextStyle(
+                        color: Colors.black,
+                      ),
                     ),
                   ),
                 ),
@@ -237,9 +248,26 @@ class AddEmployeeDetailsScreen extends StatelessWidget {
                     color: AppColors.primary, size: 24.dp),
                 Expanded(
                   child: GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return Material(
+                              child: SizedBox(
+                                  height: 80.h,
+                                  width: 80.w,
+                                  child: CustomDatePicker(
+                                    onDateSelected: (selectedDate) {
+                                      toDateController.text = selectedDate
+                                          .getDateWithShortMonthName;
+                                    },
+                                  )),
+                            );
+                          });
+                    },
                     child: TextFormField(
                       enabled: false,
+                      controller: toDateController,
                       decoration: InputDecoration(
                         hintText: 'No Date',
                         prefixIcon: Icon(
@@ -256,6 +284,9 @@ class AddEmployeeDetailsScreen extends StatelessWidget {
                             //width: 0.2.dp,
                           ),
                         ),
+                      ),
+                      style: const TextStyle(
+                        color: Colors.black,
                       ),
                     ),
                   ),
@@ -279,7 +310,6 @@ class AddEmployeeDetailsScreen extends StatelessWidget {
               children: [
                 ElevatedButton(
                   onPressed: () {},
-                  child: Text('Cancel'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primary.shade50.withOpacity(0.5),
                     foregroundColor: AppColors.primary,
@@ -288,11 +318,11 @@ class AddEmployeeDetailsScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(4.dp),
                     ),
                   ),
+                  child: const Text('Cancel'),
                 ),
                 SizedBox(width: 8.dp),
                 ElevatedButton(
                   onPressed: () {},
-                  child: Text('Save'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primary,
                     elevation: 0,
@@ -300,6 +330,7 @@ class AddEmployeeDetailsScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(4.dp),
                     ),
                   ),
+                  child: const Text('Save'),
                 ),
               ],
             ),

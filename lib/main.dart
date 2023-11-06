@@ -5,11 +5,11 @@ import 'package:flutter_sizer/flutter_sizer.dart';
 import 'features/employee_list/ui/employee_list_screen.dart';
 
 Future<void> main() async {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  MyApp({super.key});
+  const MyApp({super.key});
 
   // This widget is the root of your application.
   @override
@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: AppColors.primary,
           useMaterial3: false,
         ),
-        home: EmployeeListScreen(),
+        home: const EmployeeListScreen(),
       );
     });
   }

@@ -7,13 +7,13 @@ import '../../add_employee_details/ui/add_employee_details_screen.dart';
 import '../bloc/employee_list_bloc.dart';
 
 class EmployeeListScreen extends StatelessWidget {
-  EmployeeListScreen({super.key});
+  const EmployeeListScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Employee List'),
+        title: const Text('Employee List'),
         elevation: 0,
       ),
       body: BlocProvider(
@@ -45,10 +45,10 @@ class EmployeeListScreen extends StatelessWidget {
               return AddEmployeeDetailsScreen();
             }));
           },
-          child: Icon(Icons.add),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8.dp),
-          )),
+          ),
+          child: const Icon(Icons.add)),
     );
   }
 }
