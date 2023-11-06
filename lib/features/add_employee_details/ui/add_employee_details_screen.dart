@@ -3,14 +3,15 @@ import 'package:assignment_realtime_innovations/helpers/date_time_helpers.dart';
 import 'package:assignment_realtime_innovations/widgets/custom_date_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
+import 'package:get/get.dart';
+
+import '../get_controllers/add_employees_get_controller.dart';
 
 class AddEmployeeDetailsScreen extends StatelessWidget {
   AddEmployeeDetailsScreen({super.key});
 
-  TextEditingController employeeNameController = TextEditingController();
-  TextEditingController roleController = TextEditingController();
-  TextEditingController fromDateController = TextEditingController();
-  TextEditingController toDateController = TextEditingController();
+  AddEmployeesGetController addEmployeesGetController =
+      Get.put(AddEmployeesGetController());
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +26,7 @@ class AddEmployeeDetailsScreen extends StatelessWidget {
         child: ListView(
           children: [
             TextFormField(
-              controller: employeeNameController,
+              controller: addEmployeesGetController.employeeNameController,
               decoration: InputDecoration(
                 hintText: 'Employee Name',
                 hintStyle: TextStyle(
@@ -68,8 +69,9 @@ class AddEmployeeDetailsScreen extends StatelessWidget {
                         children: [
                           GestureDetector(
                             onTap: () {
-                              roleController.text = 'Product Designer';
-                              Navigator.of(context).pop();
+                              addEmployeesGetController.roleController.text =
+                                  'Product Designer';
+                              Get.back();
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -92,8 +94,9 @@ class AddEmployeeDetailsScreen extends StatelessWidget {
                           ),
                           GestureDetector(
                             onTap: () {
-                              roleController.text = 'Flutter Developer';
-                              Navigator.of(context).pop();
+                              addEmployeesGetController.roleController.text =
+                                  'Flutter Developer';
+                              Get.back();
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -116,8 +119,9 @@ class AddEmployeeDetailsScreen extends StatelessWidget {
                           ),
                           GestureDetector(
                             onTap: () {
-                              roleController.text = 'QA Tester';
-                              Navigator.of(context).pop();
+                              addEmployeesGetController.roleController.text =
+                                  'QA Tester';
+                              Get.back();
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -140,8 +144,9 @@ class AddEmployeeDetailsScreen extends StatelessWidget {
                           ),
                           GestureDetector(
                             onTap: () {
-                              roleController.text = 'Product Owner';
-                              Navigator.of(context).pop();
+                              addEmployeesGetController.roleController.text =
+                                  'Product Owner';
+                              Get.back();
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -167,7 +172,7 @@ class AddEmployeeDetailsScreen extends StatelessWidget {
                     });
               },
               child: TextFormField(
-                controller: roleController,
+                controller: addEmployeesGetController.roleController,
                 enabled: false,
                 decoration: InputDecoration(
                   hintText: 'Select Role',
@@ -212,17 +217,21 @@ class AddEmployeeDetailsScreen extends StatelessWidget {
                               child: CustomDatePicker(
                                 onDateSelected: (selectedDate) {
                                   if (selectedDate != null) {
-                                    fromDateController.text =
+                                    addEmployeesGetController
+                                            .fromDateController.text =
                                         selectedDate.getDateWithShortMonthName;
+                                    addEmployeesGetController.fromDate =
+                                        selectedDate;
                                   }
                                 },
+                                noDateOption: false,
                               ),
                             );
                           });
                     },
                     child: TextFormField(
                       enabled: false,
-                      controller: fromDateController,
+                      controller: addEmployeesGetController.fromDateController,
                       decoration: InputDecoration(
                         hintText: 'No Date',
                         prefixIcon: Icon(
@@ -262,10 +271,14 @@ class AddEmployeeDetailsScreen extends StatelessWidget {
                                 noDateOption: true,
                                 onDateSelected: (selectedDate) {
                                   if (selectedDate != null) {
-                                    toDateController.text =
+                                    addEmployeesGetController
+                                            .toDateController.text =
                                         selectedDate.getDateWithShortMonthName;
+                                    addEmployeesGetController.toDate =
+                                        selectedDate;
                                   } else {
-                                    toDateController.text = '';
+                                    addEmployeesGetController
+                                        .toDateController.text = '';
                                   }
                                 },
                               ),
@@ -274,7 +287,7 @@ class AddEmployeeDetailsScreen extends StatelessWidget {
                     },
                     child: TextFormField(
                       enabled: false,
-                      controller: toDateController,
+                      controller: addEmployeesGetController.toDateController,
                       decoration: InputDecoration(
                         hintText: 'No Date',
                         prefixIcon: Icon(
@@ -316,7 +329,9 @@ class AddEmployeeDetailsScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.back();
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primary.shade50.withOpacity(0.5),
                     foregroundColor: AppColors.primary,
@@ -329,7 +344,9 @@ class AddEmployeeDetailsScreen extends StatelessWidget {
                 ),
                 SizedBox(width: 8.dp),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    addEmployeesGetController.saveEmployeeDetails();
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primary,
                     elevation: 0,
