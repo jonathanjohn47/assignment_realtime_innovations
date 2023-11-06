@@ -22,14 +22,14 @@ class CustomDatePicker extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.all(8.0.dp),
-      child: Wrap(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           !noDateOption
               ? Table(
                   children: [
                     TableRow(children: [
-                      Expanded(
-                          child: Padding(
+                      Padding(
                         padding: EdgeInsets.symmetric(horizontal: 8.0.dp),
                         child: Obx(() {
                           return ElevatedButton(
@@ -48,9 +48,8 @@ class CustomDatePicker extends StatelessWidget {
                               },
                               child: const Text('Today'));
                         }),
-                      )),
-                      Expanded(
-                          child: Padding(
+                      ),
+                      Padding(
                         padding: EdgeInsets.symmetric(horizontal: 4.0.dp),
                         child: Obx(() {
                           return ElevatedButton(
@@ -94,11 +93,10 @@ class CustomDatePicker extends StatelessWidget {
                               },
                               child: const Text('Next Monday'));
                         }),
-                      )),
+                      ),
                     ]),
                     TableRow(children: [
-                      Expanded(
-                          child: Padding(
+                      Padding(
                         padding: EdgeInsets.symmetric(horizontal: 8.0.dp),
                         child: Obx(() {
                           return ElevatedButton(
@@ -140,9 +138,8 @@ class CustomDatePicker extends StatelessWidget {
                               },
                               child: const Text('Next Tuesday'));
                         }),
-                      )),
-                      Expanded(
-                          child: Padding(
+                      ),
+                      Padding(
                         padding: EdgeInsets.symmetric(horizontal: 4.0.dp),
                         child: Obx(() {
                           return ElevatedButton(
@@ -164,15 +161,14 @@ class CustomDatePicker extends StatelessWidget {
                               },
                               child: const Text('After 1 Week'));
                         }),
-                      )),
+                      ),
                     ]),
                   ],
                 )
               : Table(
                   children: [
                     TableRow(children: [
-                      Expanded(
-                          child: Padding(
+                      Padding(
                         padding: EdgeInsets.symmetric(horizontal: 8.0.dp),
                         child: Obx(() {
                           return ElevatedButton(
@@ -191,9 +187,8 @@ class CustomDatePicker extends StatelessWidget {
                               },
                               child: const Text('No Date'));
                         }),
-                      )),
-                      Expanded(
-                          child: Padding(
+                      ),
+                      Padding(
                         padding: EdgeInsets.symmetric(horizontal: 8.0.dp),
                         child: Obx(() {
                           return ElevatedButton(
@@ -212,7 +207,7 @@ class CustomDatePicker extends StatelessWidget {
                               },
                               child: const Text('Today'));
                         }),
-                      )),
+                      ),
                     ]),
                   ],
                 ),
