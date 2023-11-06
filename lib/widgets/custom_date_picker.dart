@@ -7,11 +7,13 @@ import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class CustomDatePicker extends StatefulWidget {
-  Function(DateTime) onDateSelected;
+  final Function(DateTime?) onDateSelected;
+  final bool noDateOption;
 
   CustomDatePicker({
     required this.onDateSelected,
     Key? key,
+    this.noDateOption = false,
   }) : super(key: key);
 
   @override
@@ -20,143 +22,201 @@ class CustomDatePicker extends StatefulWidget {
 
 class _CustomDatePickerState extends State<CustomDatePicker> {
   DateTime _selectedDate = DateTime.now();
+  bool datePicked = false;
 
   int buttonClicked = 0;
+
+  @override
+  void initState() {
+    datePicked = !widget.noDateOption;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.all(8.0.dp),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
+      child: Wrap(
         children: [
-          Table(
-            children: [
-              TableRow(children: [
-                Expanded(
-                    child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8.0.dp),
-                  child: ElevatedButton(
-                      style: buttonClicked == 0
-                          ? null
-                          : ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  AppColors.primary.shade50.withOpacity(0.5),
-                              foregroundColor: AppColors.primary,
-                              elevation: 0),
-                      onPressed: () {
-                        setState(() {
-                          _selectedDate = DateTime.now();
-                          buttonClicked = 0;
-                        });
-                      },
-                      child: Text('Today')),
-                )),
-                Expanded(
-                    child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 4.0.dp),
-                  child: ElevatedButton(
-                      style: buttonClicked == 1
-                          ? null
-                          : ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  AppColors.primary.shade50.withOpacity(0.5),
-                              foregroundColor: AppColors.primary,
-                              elevation: 0),
-                      onPressed: () {
-                        int currentWeekday = _selectedDate.weekday;
-                        int daysToAdd = 0;
-                        if (currentWeekday == DateTime.monday) {
-                          daysToAdd = 6;
-                        } else if (currentWeekday == DateTime.tuesday) {
-                          daysToAdd = 5;
-                        } else if (currentWeekday == DateTime.wednesday) {
-                          daysToAdd = 4;
-                        } else if (currentWeekday == DateTime.thursday) {
-                          daysToAdd = 3;
-                        } else if (currentWeekday == DateTime.friday) {
-                          daysToAdd = 2;
-                        } else if (currentWeekday == DateTime.saturday) {
-                          daysToAdd = 1;
-                        } else if (currentWeekday == DateTime.sunday) {
-                          daysToAdd = 0;
-                        }
-                        DateTime nextMonday =
-                            _selectedDate.add(Duration(days: daysToAdd));
-                        setState(() {
-                          _selectedDate = nextMonday.add(Duration(days: 1));
-                          buttonClicked = 1;
-                        });
-                      },
-                      child: Text('Next Monday')),
-                )),
-              ]),
-              TableRow(children: [
-                Expanded(
-                    child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8.0.dp),
-                  child: ElevatedButton(
-                      style: buttonClicked == 2
-                          ? null
-                          : ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  AppColors.primary.shade50.withOpacity(0.5),
-                              foregroundColor: AppColors.primary,
-                              elevation: 0),
-                      onPressed: () {
-                        int currentWeekday = _selectedDate.weekday;
-                        int daysToAdd = 0;
-                        if (currentWeekday == DateTime.monday) {
-                          daysToAdd = 1;
-                        } else if (currentWeekday == DateTime.tuesday) {
-                          daysToAdd = 0;
-                        } else if (currentWeekday == DateTime.wednesday) {
-                          daysToAdd = 6;
-                        } else if (currentWeekday == DateTime.thursday) {
-                          daysToAdd = 5;
-                        } else if (currentWeekday == DateTime.friday) {
-                          daysToAdd = 4;
-                        } else if (currentWeekday == DateTime.saturday) {
-                          daysToAdd = 3;
-                        } else if (currentWeekday == DateTime.sunday) {
-                          daysToAdd = 2;
-                        }
-                        DateTime nextTuesday =
-                            _selectedDate.add(Duration(days: daysToAdd));
-                        setState(() {
-                          _selectedDate = nextTuesday;
-                          buttonClicked = 2;
-                        });
-                      },
-                      child: Text('Next Tuesday')),
-                )),
-                Expanded(
-                    child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 4.0.dp),
-                  child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor:
-                              AppColors.primary.shade50.withOpacity(0.5),
-                          foregroundColor: AppColors.primary,
-                          elevation: 0),
-                      onPressed: () {
-                        DateTime nextWeek =
-                            _selectedDate.add(Duration(days: 7));
-                        setState(() {
-                          _selectedDate = nextWeek;
-                          buttonClicked = 3;
-                        });
-                      },
-                      child: Text('After 1 Week')),
-                )),
-              ]),
-            ],
-          ),
+          !widget.noDateOption
+              ? Table(
+                  children: [
+                    TableRow(children: [
+                      Expanded(
+                          child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8.0.dp),
+                        child: ElevatedButton(
+                            style: buttonClicked == 0
+                                ? null
+                                : ElevatedButton.styleFrom(
+                                    backgroundColor: AppColors.primary.shade50
+                                        .withOpacity(0.5),
+                                    foregroundColor: AppColors.primary,
+                                    elevation: 0),
+                            onPressed: () {
+                              setState(() {
+                                _selectedDate = DateTime.now();
+                                datePicked = true;
+                                buttonClicked = 0;
+                              });
+                            },
+                            child: Text('Today')),
+                      )),
+                      Expanded(
+                          child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 4.0.dp),
+                        child: ElevatedButton(
+                            style: buttonClicked == 1
+                                ? null
+                                : ElevatedButton.styleFrom(
+                                    backgroundColor: AppColors.primary.shade50
+                                        .withOpacity(0.5),
+                                    foregroundColor: AppColors.primary,
+                                    elevation: 0),
+                            onPressed: () {
+                              int currentWeekday = _selectedDate.weekday;
+                              int daysToAdd = 0;
+                              if (currentWeekday == DateTime.monday) {
+                                daysToAdd = 6;
+                              } else if (currentWeekday == DateTime.tuesday) {
+                                daysToAdd = 5;
+                              } else if (currentWeekday == DateTime.wednesday) {
+                                daysToAdd = 4;
+                              } else if (currentWeekday == DateTime.thursday) {
+                                daysToAdd = 3;
+                              } else if (currentWeekday == DateTime.friday) {
+                                daysToAdd = 2;
+                              } else if (currentWeekday == DateTime.saturday) {
+                                daysToAdd = 1;
+                              } else if (currentWeekday == DateTime.sunday) {
+                                daysToAdd = 0;
+                              }
+                              DateTime nextMonday =
+                                  _selectedDate.add(Duration(days: daysToAdd));
+                              setState(() {
+                                _selectedDate =
+                                    nextMonday.add(Duration(days: 1));
+                                buttonClicked = 1;
+                                datePicked = true;
+                              });
+                            },
+                            child: Text('Next Monday')),
+                      )),
+                    ]),
+                    TableRow(children: [
+                      Expanded(
+                          child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8.0.dp),
+                        child: ElevatedButton(
+                            style: buttonClicked == 2
+                                ? null
+                                : ElevatedButton.styleFrom(
+                                    backgroundColor: AppColors.primary.shade50
+                                        .withOpacity(0.5),
+                                    foregroundColor: AppColors.primary,
+                                    elevation: 0),
+                            onPressed: () {
+                              int currentWeekday = _selectedDate.weekday;
+                              int daysToAdd = 0;
+                              if (currentWeekday == DateTime.monday) {
+                                daysToAdd = 1;
+                              } else if (currentWeekday == DateTime.tuesday) {
+                                daysToAdd = 0;
+                              } else if (currentWeekday == DateTime.wednesday) {
+                                daysToAdd = 6;
+                              } else if (currentWeekday == DateTime.thursday) {
+                                daysToAdd = 5;
+                              } else if (currentWeekday == DateTime.friday) {
+                                daysToAdd = 4;
+                              } else if (currentWeekday == DateTime.saturday) {
+                                daysToAdd = 3;
+                              } else if (currentWeekday == DateTime.sunday) {
+                                daysToAdd = 2;
+                              }
+                              DateTime nextTuesday =
+                                  _selectedDate.add(Duration(days: daysToAdd));
+                              setState(() {
+                                _selectedDate = nextTuesday;
+                                buttonClicked = 2;
+                                datePicked = true;
+                              });
+                            },
+                            child: Text('Next Tuesday')),
+                      )),
+                      Expanded(
+                          child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 4.0.dp),
+                        child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor:
+                                    AppColors.primary.shade50.withOpacity(0.5),
+                                foregroundColor: AppColors.primary,
+                                elevation: 0),
+                            onPressed: () {
+                              DateTime nextWeek =
+                                  _selectedDate.add(Duration(days: 7));
+                              setState(() {
+                                _selectedDate = nextWeek;
+                                buttonClicked = 3;
+                                datePicked = true;
+                              });
+                            },
+                            child: Text('After 1 Week')),
+                      )),
+                    ]),
+                  ],
+                )
+              : Table(
+                  children: [
+                    TableRow(children: [
+                      Expanded(
+                          child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8.0.dp),
+                        child: ElevatedButton(
+                            style: buttonClicked == 0
+                                ? null
+                                : ElevatedButton.styleFrom(
+                                    backgroundColor: AppColors.primary.shade50
+                                        .withOpacity(0.5),
+                                    foregroundColor: AppColors.primary,
+                                    elevation: 0),
+                            onPressed: () {
+                              setState(() {
+                                _selectedDate = DateTime.now();
+                                buttonClicked = 0;
+                                datePicked = false;
+                              });
+                            },
+                            child: Text('No Date')),
+                      )),
+                      Expanded(
+                          child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8.0.dp),
+                        child: ElevatedButton(
+                            style: buttonClicked == 1
+                                ? null
+                                : ElevatedButton.styleFrom(
+                                    backgroundColor: AppColors.primary.shade50
+                                        .withOpacity(0.5),
+                                    foregroundColor: AppColors.primary,
+                                    elevation: 0),
+                            onPressed: () {
+                              setState(() {
+                                _selectedDate = DateTime.now();
+                                buttonClicked = 1;
+                                datePicked = true;
+                              });
+                            },
+                            child: Text('Today')),
+                      )),
+                    ]),
+                  ],
+                ),
           SizedBox(height: 16.dp),
           TableCalendar(
             firstDay: DateTime.utc(2010, 10, 16),
             lastDay: DateTime.utc(2030, 3, 14),
-            focusedDay: DateTime.now(),
+            focusedDay: _selectedDate,
             selectedDayPredicate: (day) {
               return isSameDay(_selectedDate, day);
             },
@@ -213,7 +273,8 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
                   SizedBox(width: 8.dp),
                   ElevatedButton(
                       onPressed: () {
-                        widget.onDateSelected(_selectedDate);
+                        widget
+                            .onDateSelected(datePicked ? _selectedDate : null);
                         Navigator.of(context).pop();
                       },
                       child: Text('Save')),

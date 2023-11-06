@@ -205,16 +205,18 @@ class AddEmployeeDetailsScreen extends StatelessWidget {
                       showDialog(
                           context: context,
                           builder: (context) {
-                            return Material(
-                              child: SizedBox(
-                                  height: 80.h,
-                                  width: 80.w,
-                                  child: CustomDatePicker(
-                                    onDateSelected: (selectedDate) {
-                                      fromDateController.text = selectedDate
-                                          .getDateWithShortMonthName;
-                                    },
-                                  )),
+                            return Dialog(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16.dp),
+                              ),
+                              child: CustomDatePicker(
+                                onDateSelected: (selectedDate) {
+                                  if (selectedDate != null) {
+                                    fromDateController.text =
+                                        selectedDate.getDateWithShortMonthName;
+                                  }
+                                },
+                              ),
                             );
                           });
                     },
@@ -252,16 +254,21 @@ class AddEmployeeDetailsScreen extends StatelessWidget {
                       showDialog(
                           context: context,
                           builder: (context) {
-                            return Material(
-                              child: SizedBox(
-                                  height: 80.h,
-                                  width: 80.w,
-                                  child: CustomDatePicker(
-                                    onDateSelected: (selectedDate) {
-                                      toDateController.text = selectedDate
-                                          .getDateWithShortMonthName;
-                                    },
-                                  )),
+                            return Dialog(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16.dp),
+                              ),
+                              child: CustomDatePicker(
+                                noDateOption: true,
+                                onDateSelected: (selectedDate) {
+                                  if (selectedDate != null) {
+                                    toDateController.text =
+                                        selectedDate.getDateWithShortMonthName;
+                                  } else {
+                                    toDateController.text = '';
+                                  }
+                                },
+                              ),
                             );
                           });
                     },
