@@ -81,7 +81,7 @@ class EmployeeListScreen extends StatelessWidget {
                                             fontWeight: FontWeight.w500),
                                       ),
                                       SizedBox(
-                                        height: 2.dp,
+                                        height: 4.dp,
                                       ),
                                       Text(
                                         employee.role,
@@ -90,15 +90,15 @@ class EmployeeListScreen extends StatelessWidget {
                                             color: Colors.grey),
                                       ),
                                       SizedBox(
-                                        height: 2.dp,
+                                        height: 4.dp,
                                       ),
                                       SizedBox(
-                                        height: 2.dp,
+                                        height: 4.dp,
                                       ),
                                       Text(
                                         "From ${employee.fromDate.getDateWithShortMonthName}",
                                         style: TextStyle(
-                                            fontSize: 14.dp,
+                                            fontSize: 12.dp,
                                             color: Colors.grey),
                                       ),
                                     ],
@@ -278,7 +278,7 @@ class EmployeeListScreen extends StatelessWidget {
                                               fontWeight: FontWeight.w500),
                                         ),
                                         SizedBox(
-                                          height: 2.dp,
+                                          height: 4.dp,
                                         ),
                                         Text(
                                           employee.role,
@@ -287,12 +287,12 @@ class EmployeeListScreen extends StatelessWidget {
                                               color: Colors.grey),
                                         ),
                                         SizedBox(
-                                          height: 2.dp,
+                                          height: 4.dp,
                                         ),
                                         Text(
                                           "${employee.fromDate.getDateWithShortMonthName} - ${employee.toDate.getDateWithShortMonthName}",
                                           style: TextStyle(
-                                              fontSize: 14.dp,
+                                              fontSize: 12.dp,
                                               color: Colors.grey),
                                         ),
                                       ],
