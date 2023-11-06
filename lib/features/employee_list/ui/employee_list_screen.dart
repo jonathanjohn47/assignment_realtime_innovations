@@ -44,71 +44,23 @@ class EmployeeListScreen extends StatelessWidget {
                         child: ListView.builder(
                           itemBuilder: (context, index) {
                             var employee = controller.employeeList
-                                .where((p0) => p0.toDate == null)
-                                .toList()[index];
-                            return Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 8.0.dp, vertical: 4.dp),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    employee.employeeName,
-                                    style: TextStyle(
-                                        fontSize: 18.dp,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                  SizedBox(
-                                    height: 2.dp,
-                                  ),
-                                  Text(
-                                    employee.role,
-                                    style: TextStyle(
-                                        fontSize: 14.dp, color: Colors.grey),
-                                  ),
-                                  SizedBox(
-                                    height: 2.dp,
-                                  ),
-                                  SizedBox(
-                                    height: 2.dp,
-                                  ),
-                                  Text(
-                                    "From ${employee.fromDate.getDateWithShortMonthName}",
-                                    style: TextStyle(
-                                        fontSize: 14.dp, color: Colors.grey),
-                                  ),
-                                ],
-                              ),
-                            );
-                          },
-                          itemCount: controller.employeeList
-                              .where((p0) => p0.toDate == null)
-                              .length,
-                        ),
-                      ),
-                      Container(
-                        color: Colors.grey.shade200.withOpacity(0.5),
-                        alignment: Alignment.centerLeft,
-                        padding: EdgeInsets.all(8.0.dp),
-                        child: Padding(
-                          padding: EdgeInsets.all(8.0.dp),
-                          child: Text(
-                            'Current Employees',
-                            style: TextStyle(
-                                fontSize: 18.dp,
-                                fontWeight: FontWeight.w500,
-                                color: AppColors.primary),
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: ListView.builder(
-                          itemBuilder: (context, index) {
-                            EmployeeModelHive employee = controller.employeeList
-                                .where((p0) => p0.toDate != null)
+                                .where((p0) => p0.currentEmployee)
                                 .toList()[index];
                             return Dismissible(
                               key: Key(employee.employeeName),
+                              background: Container(),
+                              secondaryBackground: Container(
+                                color: Colors.red,
+                                alignment: Alignment.centerRight,
+                                child: Padding(
+                                  padding: EdgeInsets.all(16.0.dp),
+                                  child: Icon(
+                                    Icons.delete,
+                                    size: 24.dp,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
                               child: Padding(
                                 padding: EdgeInsets.symmetric(
                                     horizontal: 8.0.dp, vertical: 4.dp),
@@ -132,35 +84,164 @@ class EmployeeListScreen extends StatelessWidget {
                                     SizedBox(
                                       height: 2.dp,
                                     ),
+                                    SizedBox(
+                                      height: 2.dp,
+                                    ),
                                     Text(
-                                      "${employee.fromDate.getDateWithShortMonthName} - ${employee.toDate!.getDateWithShortMonthName}",
+                                      "From ${employee.fromDate.getDateWithShortMonthName}",
                                       style: TextStyle(
                                           fontSize: 14.dp, color: Colors.grey),
                                     ),
                                   ],
                                 ),
                               ),
-                              secondaryBackground: Container(
-                                color: Colors.red,
-                                child: Icon(
-                                  Icons.delete,
-                                  size: 24.dp,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              background: Container(
-                                color: Colors.red,
-                                child: Icon(
-                                  Icons.delete,
-                                  size: 24.dp,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              onDismissed: (direction) {},
+                              confirmDismiss: (direction) async {
+                                if (direction == DismissDirection.endToStart) {
+                                  return await showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: const Text("Confirm"),
+                                        content: const Text(
+                                            "Are you sure you wish to delete this item?"),
+                                        actions: <Widget>[
+                                          TextButton(
+                                              onPressed: () {
+                                                controller
+                                                    .deleteEmployee(employee);
+                                                Navigator.of(context).pop(true);
+                                              },
+                                              child: const Text("DELETE")),
+                                          TextButton(
+                                            onPressed: () =>
+                                                Navigator.of(context)
+                                                    .pop(false),
+                                            child: const Text("CANCEL"),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                }
+                                return false;
+                              },
                             );
                           },
                           itemCount: controller.employeeList
-                              .where((p0) => p0.toDate != null)
+                              .where((p0) => p0.currentEmployee)
+                              .length,
+                        ),
+                      ),
+                      Container(
+                        color: Colors.grey.shade200.withOpacity(0.5),
+                        alignment: Alignment.centerLeft,
+                        padding: EdgeInsets.all(8.0.dp),
+                        child: Padding(
+                          padding: EdgeInsets.all(8.0.dp),
+                          child: Text(
+                            'Previous  Employees',
+                            style: TextStyle(
+                                fontSize: 18.dp,
+                                fontWeight: FontWeight.w500,
+                                color: AppColors.primary),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: ListView.builder(
+                          itemBuilder: (context, index) {
+                            EmployeeModel employee = controller.employeeList
+                                .where((p0) => !p0.currentEmployee)
+                                .toList()[index];
+                            return Dismissible(
+                                key: Key(employee.employeeName),
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 8.0.dp, vertical: 4.dp),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        employee.employeeName,
+                                        style: TextStyle(
+                                            fontSize: 18.dp,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                      SizedBox(
+                                        height: 2.dp,
+                                      ),
+                                      Text(
+                                        employee.role,
+                                        style: TextStyle(
+                                            fontSize: 14.dp,
+                                            color: Colors.grey),
+                                      ),
+                                      SizedBox(
+                                        height: 2.dp,
+                                      ),
+                                      Text(
+                                        "${employee.fromDate.getDateWithShortMonthName} - ${employee.toDate!.getDateWithShortMonthName}",
+                                        style: TextStyle(
+                                            fontSize: 14.dp,
+                                            color: Colors.grey),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                background: Container(),
+                                secondaryBackground: Container(
+                                  color: Colors.red,
+                                  alignment: Alignment.centerRight,
+                                  child: Padding(
+                                    padding: EdgeInsets.all(16.0.dp),
+                                    child: Icon(
+                                      Icons.delete,
+                                      size: 24.dp,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                                /*onDismissed: (direction) {
+                                if (direction == DismissDirection.endToStart) {
+                                  controller.deleteEmployee(employee);
+                                }
+                              },*/
+                                confirmDismiss: (direction) async {
+                                  if (direction ==
+                                      DismissDirection.endToStart) {
+                                    return await showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title: const Text("Confirm"),
+                                          content: const Text(
+                                              "Are you sure you wish to delete this item?"),
+                                          actions: <Widget>[
+                                            TextButton(
+                                                onPressed: () {
+                                                  controller
+                                                      .deleteEmployee(employee);
+                                                  Navigator.of(context)
+                                                      .pop(true);
+                                                },
+                                                child: const Text("DELETE")),
+                                            TextButton(
+                                              onPressed: () =>
+                                                  Navigator.of(context)
+                                                      .pop(false),
+                                              child: const Text("CANCEL"),
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                  }
+                                  return false;
+                                });
+                          },
+                          itemCount: controller.employeeList
+                              .where((p0) => !p0.currentEmployee)
                               .length,
                         ),
                       ),

@@ -13,7 +13,7 @@ Future<void> main() async {
   var directory = await getApplicationDocumentsDirectory();
 
   Hive.init(directory.path);
-  Hive.registerAdapter(EmployeeModelHiveAdapter());
+  Hive.registerAdapter(EmployeeModelAdapter());
   runApp(const MyApp());
 }
 

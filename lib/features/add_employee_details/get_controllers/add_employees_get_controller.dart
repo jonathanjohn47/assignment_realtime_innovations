@@ -15,18 +15,20 @@ class AddEmployeesGetController extends GetxController {
   DateTime toDate = DateTime.now();
 
   Future<void> saveEmployeeDetails() async {
-    EmployeeModelHive employeeModelHive = EmployeeModelHive(
+    EmployeeModel employeeModelHive = EmployeeModel(
+        id: DateTime.now().millisecondsSinceEpoch,
         employeeName: employeeNameController.text,
         role: roleController.text,
         fromDate: fromDate,
-        toDate: toDateController.text.isNotEmpty ? toDate : null);
+        toDate: toDate,
+        currentEmployee: toDateController.text.isEmpty);
 
-    var box = await Hive.openBox<EmployeeModelHive>(AppConstants.employeeTable);
+    var box = await Hive.openBox<EmployeeModel>(AppConstants.employeeTable);
     box.add(employeeModelHive);
     EmployeeListGetController employeeListGetController =
         Get.find<EmployeeListGetController>();
 
-    employeeListGetController.getEmployeeList();
+    await employeeListGetController.getEmployeeList();
     Get.back();
     Get.snackbar('Success', 'Employee details saved successfully',
         snackPosition: SnackPosition.BOTTOM,
@@ -36,7 +38,7 @@ class AddEmployeesGetController extends GetxController {
 
   @override
   void onClose() {
-    Hive.box<EmployeeModelHive>(AppConstants.employeeTable).close();
+    Hive.box<EmployeeModel>(AppConstants.employeeTable).close();
     super.onClose();
   }
 }
