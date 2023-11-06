@@ -1,8 +1,6 @@
 import 'package:assignment_realtime_innovations/core/app_colors.dart';
 import 'package:assignment_realtime_innovations/helpers/date_time_helpers.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:get/get.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -48,7 +46,7 @@ class CustomDatePicker extends StatelessWidget {
                                 getController.datePicked = true;
                                 getController.buttonClicked.value = 0;
                               },
-                              child: Text('Today'));
+                              child: const Text('Today'));
                         }),
                       )),
                       Expanded(
@@ -90,12 +88,11 @@ class CustomDatePicker extends StatelessWidget {
                                     .add(Duration(days: daysToAdd));
 
                                 getController.selectedDate.value =
-                                    nextMonday.add(Duration(days: 1));
+                                    nextMonday.add(const Duration(days: 1));
                                 getController.buttonClicked.value = 1;
                                 getController.datePicked = true;
-                                ;
                               },
-                              child: Text('Next Monday'));
+                              child: const Text('Next Monday'));
                         }),
                       )),
                     ]),
@@ -141,7 +138,7 @@ class CustomDatePicker extends StatelessWidget {
                                 getController.buttonClicked.value = 2;
                                 getController.datePicked = true;
                               },
-                              child: Text('Next Tuesday'));
+                              child: const Text('Next Tuesday'));
                         }),
                       )),
                       Expanded(
@@ -159,14 +156,13 @@ class CustomDatePicker extends StatelessWidget {
                               onPressed: () {
                                 DateTime nextWeek = getController
                                     .selectedDate.value
-                                    .add(Duration(days: 7));
+                                    .add(const Duration(days: 7));
 
                                 getController.selectedDate.value = nextWeek;
                                 getController.buttonClicked.value = 3;
                                 getController.datePicked = true;
-                                ;
                               },
-                              child: Text('After 1 Week'));
+                              child: const Text('After 1 Week'));
                         }),
                       )),
                     ]),
@@ -193,7 +189,7 @@ class CustomDatePicker extends StatelessWidget {
                                 getController.buttonClicked.value = 0;
                                 getController.datePicked = false;
                               },
-                              child: Text('No Date'));
+                              child: const Text('No Date'));
                         }),
                       )),
                       Expanded(
@@ -213,9 +209,8 @@ class CustomDatePicker extends StatelessWidget {
                                     DateTime.now();
                                 getController.buttonClicked.value = 1;
                                 getController.datePicked = true;
-                                ;
                               },
-                              child: Text('Today'));
+                              child: const Text('Today'));
                         }),
                       )),
                     ]),
@@ -283,7 +278,7 @@ class CustomDatePicker extends StatelessWidget {
                       onPressed: () {
                         Get.back();
                       },
-                      child: Text('Cancel')),
+                      child: const Text('Cancel')),
                   SizedBox(width: 8.dp),
                   ElevatedButton(
                       onPressed: () {
@@ -292,7 +287,7 @@ class CustomDatePicker extends StatelessWidget {
                             : null);
                         Get.back();
                       },
-                      child: Text('Save')),
+                      child: const Text('Save')),
                 ],
               )
             ],

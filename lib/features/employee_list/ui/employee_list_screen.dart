@@ -2,12 +2,12 @@ import 'package:assignment_realtime_innovations/core/app_colors.dart';
 import 'package:assignment_realtime_innovations/features/employee_list/get_controllers/employee_list_get_controller.dart';
 import 'package:assignment_realtime_innovations/helpers/date_time_helpers.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:get/get.dart';
 
 import '../../../models/employee_model.dart';
 import '../../add_employee_details/ui/add_employee_details_screen.dart';
+import '../../edit_employee_details/ui/edit_employee_details_screen.dart';
 
 class EmployeeListScreen extends StatelessWidget {
   const EmployeeListScreen({super.key});
@@ -61,38 +61,48 @@ class EmployeeListScreen extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 8.0.dp, vertical: 4.dp),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      employee.employeeName,
-                                      style: TextStyle(
-                                          fontSize: 18.dp,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                    SizedBox(
-                                      height: 2.dp,
-                                    ),
-                                    Text(
-                                      employee.role,
-                                      style: TextStyle(
-                                          fontSize: 14.dp, color: Colors.grey),
-                                    ),
-                                    SizedBox(
-                                      height: 2.dp,
-                                    ),
-                                    SizedBox(
-                                      height: 2.dp,
-                                    ),
-                                    Text(
-                                      "From ${employee.fromDate.getDateWithShortMonthName}",
-                                      style: TextStyle(
-                                          fontSize: 14.dp, color: Colors.grey),
-                                    ),
-                                  ],
+                              child: GestureDetector(
+                                onTap: () {
+                                  Get.to(() => EditEmployeeDetailsScreen(
+                                        employeeModel: employee,
+                                      ));
+                                },
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 8.0.dp, vertical: 4.dp),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        employee.employeeName,
+                                        style: TextStyle(
+                                            fontSize: 18.dp,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                      SizedBox(
+                                        height: 2.dp,
+                                      ),
+                                      Text(
+                                        employee.role,
+                                        style: TextStyle(
+                                            fontSize: 14.dp,
+                                            color: Colors.grey),
+                                      ),
+                                      SizedBox(
+                                        height: 2.dp,
+                                      ),
+                                      SizedBox(
+                                        height: 2.dp,
+                                      ),
+                                      Text(
+                                        "From ${employee.fromDate.getDateWithShortMonthName}",
+                                        style: TextStyle(
+                                            fontSize: 14.dp,
+                                            color: Colors.grey),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                               confirmDismiss: (direction) async {
@@ -108,7 +118,28 @@ class EmployeeListScreen extends StatelessWidget {
                                           TextButton(
                                               onPressed: () {
                                                 controller
-                                                    .deleteEmployee(employee);
+                                                    .deleteEmployee(employee)
+                                                    .then((value) {
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(SnackBar(
+                                                          content: const Text(
+                                                              'Employee data has been deleted'),
+                                                          action:
+                                                              SnackBarAction(
+                                                            label: 'UNDO',
+                                                            onPressed: () {
+                                                              controller
+                                                                  .saveEmployeeDetails(
+                                                                      employee)
+                                                                  .then(
+                                                                      (value) {
+                                                                ScaffoldMessenger.of(
+                                                                        context)
+                                                                    .hideCurrentSnackBar();
+                                                              });
+                                                            },
+                                                          )));
+                                                });
                                                 Navigator.of(context).pop(true);
                                               },
                                               child: const Text("DELETE")),
@@ -155,40 +186,6 @@ class EmployeeListScreen extends StatelessWidget {
                                 .toList()[index];
                             return Dismissible(
                                 key: Key(employee.employeeName),
-                                child: Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 8.0.dp, vertical: 4.dp),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        employee.employeeName,
-                                        style: TextStyle(
-                                            fontSize: 18.dp,
-                                            fontWeight: FontWeight.w500),
-                                      ),
-                                      SizedBox(
-                                        height: 2.dp,
-                                      ),
-                                      Text(
-                                        employee.role,
-                                        style: TextStyle(
-                                            fontSize: 14.dp,
-                                            color: Colors.grey),
-                                      ),
-                                      SizedBox(
-                                        height: 2.dp,
-                                      ),
-                                      Text(
-                                        "${employee.fromDate.getDateWithShortMonthName} - ${employee.toDate!.getDateWithShortMonthName}",
-                                        style: TextStyle(
-                                            fontSize: 14.dp,
-                                            color: Colors.grey),
-                                      ),
-                                    ],
-                                  ),
-                                ),
                                 background: Container(),
                                 secondaryBackground: Container(
                                   color: Colors.red,
@@ -221,7 +218,29 @@ class EmployeeListScreen extends StatelessWidget {
                                             TextButton(
                                                 onPressed: () {
                                                   controller
-                                                      .deleteEmployee(employee);
+                                                      .deleteEmployee(employee)
+                                                      .then((value) {
+                                                    ScaffoldMessenger.of(
+                                                            context)
+                                                        .showSnackBar(SnackBar(
+                                                            content: const Text(
+                                                                'Employee data has been deleted'),
+                                                            action:
+                                                                SnackBarAction(
+                                                              label: 'UNDO',
+                                                              onPressed: () {
+                                                                controller
+                                                                    .saveEmployeeDetails(
+                                                                        employee)
+                                                                    .then(
+                                                                        (value) {
+                                                                  ScaffoldMessenger.of(
+                                                                          context)
+                                                                      .hideCurrentSnackBar();
+                                                                });
+                                                              },
+                                                            )));
+                                                  });
                                                   Navigator.of(context)
                                                       .pop(true);
                                                 },
@@ -238,7 +257,48 @@ class EmployeeListScreen extends StatelessWidget {
                                     );
                                   }
                                   return false;
-                                });
+                                },
+                                child: GestureDetector(
+                                  onTap: () {
+                                    Get.to(() => EditEmployeeDetailsScreen(
+                                          employeeModel: employee,
+                                        ));
+                                  },
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 8.0.dp, vertical: 4.dp),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          employee.employeeName,
+                                          style: TextStyle(
+                                              fontSize: 18.dp,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                        SizedBox(
+                                          height: 2.dp,
+                                        ),
+                                        Text(
+                                          employee.role,
+                                          style: TextStyle(
+                                              fontSize: 14.dp,
+                                              color: Colors.grey),
+                                        ),
+                                        SizedBox(
+                                          height: 2.dp,
+                                        ),
+                                        Text(
+                                          "${employee.fromDate.getDateWithShortMonthName} - ${employee.toDate.getDateWithShortMonthName}",
+                                          style: TextStyle(
+                                              fontSize: 14.dp,
+                                              color: Colors.grey),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ));
                           },
                           itemCount: controller.employeeList
                               .where((p0) => !p0.currentEmployee)

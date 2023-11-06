@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 
@@ -46,5 +47,21 @@ class EmployeeListGetController extends GetxController {
       // Employee not found, inform the user
       print('Employee with ID ${employee.id} not found.');
     }
+  }
+
+  Future<void> saveEmployeeDetails(EmployeeModel employeeModel) async {
+    var box = await Hive.openBox<EmployeeModel>(AppConstants.employeeTable);
+    EmployeeListGetController employeeListGetController =
+        Get.find<EmployeeListGetController>();
+
+    await employeeListGetController.deleteEmployee(employeeModel);
+    await box.add(employeeModel);
+
+    await employeeListGetController.getEmployeeList();
+    Get.back();
+    Get.snackbar('Success', 'Employee details saved successfully',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.green,
+        colorText: Colors.white);
   }
 }
