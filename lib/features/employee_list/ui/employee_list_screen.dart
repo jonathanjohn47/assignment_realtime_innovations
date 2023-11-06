@@ -26,7 +26,7 @@ class EmployeeListScreen extends StatelessWidget {
                 ? Column(
                     children: [
                       Container(
-                        color: Colors.grey.shade200.withOpacity(0.5),
+                        color: Colors.grey.shade300.withOpacity(0.5),
                         alignment: Alignment.centerLeft,
                         padding: EdgeInsets.all(8.0.dp),
                         child: Padding(
@@ -164,7 +164,7 @@ class EmployeeListScreen extends StatelessWidget {
                         ),
                       ),
                       Container(
-                        color: Colors.grey.shade200.withOpacity(0.5),
+                        color: Colors.grey.shade300.withOpacity(0.5),
                         alignment: Alignment.centerLeft,
                         padding: EdgeInsets.all(8.0.dp),
                         child: Padding(
@@ -306,16 +306,15 @@ class EmployeeListScreen extends StatelessWidget {
                         ),
                       ),
                       Container(
-                        height: 10.h,
-                        color: Colors.grey.shade200.withOpacity(0.5),
+                        color: Colors.grey.shade300.withOpacity(0.5),
                         alignment: Alignment.topLeft,
                         child: Padding(
-                          padding: EdgeInsets.all(8.0.dp),
+                          padding: EdgeInsets.all(16.0.dp),
                           child: Text(
                             'Swipe Left to Delete',
                             style: TextStyle(
-                                fontSize: 16.dp,
-                                fontWeight: FontWeight.w500,
+                                fontSize: 14.dp,
+                                fontWeight: FontWeight.w400,
                                 color: Colors.grey),
                           ),
                         ),
